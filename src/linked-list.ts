@@ -31,8 +31,53 @@ export class LinkedList {
         }
     }
 
-    delete(value: unknown): void {
+    insertAfter(value: unknown, valueAfter: unknown): void {
+        const item = this.find(valueAfter);
 
+        if (item) {
+            item.next = { value, next: item.next };
+        }
+    }
+
+    find(value: unknown): LinkedListItem | null {
+        if (!this.head) {
+            return null;
+        }
+
+        let currentItem: LinkedListItem | null  = this.head;
+
+        while (currentItem) {
+            if (currentItem.value === value) {
+                return currentItem;
+            }
+            currentItem = currentItem.next;
+        }
+
+        return null;
+    }
+
+    delete(value: unknown): void {
+        if (!this.head) {
+            return;
+        }
+
+        while (this.head && this.head.value === value) {
+            this.head = this.head.next;
+        }
+
+        let currentItem: LinkedListItem | null = this.head;
+
+        while (currentItem?.next) {
+            if (currentItem?.next.value === value) {
+                currentItem.next = currentItem.next.next;
+            } else {
+                currentItem = currentItem.next;
+            }
+        }
+
+        if (this.tail?.value === value) {
+            this.tail = currentItem;
+        }
     }
 
     toArray(): LinkedListItem[] {

@@ -2,9 +2,12 @@
   "name": "data-structures",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "gzip-cli": "^1.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
