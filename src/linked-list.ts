@@ -1,94 +1,119 @@
 export interface LinkedListItem {
-    next: LinkedListItem | null;
-    value: unknown;
+  next: LinkedListItem | null;
+  value: unknown;
 }
 
 export class LinkedList {
-    head: LinkedListItem | null = null;
-    tail: LinkedListItem | null = null;
+  private _head: LinkedListItem | null = null;
+  private _tail: LinkedListItem | null = null;
 
-    append(value: unknown): void {
-        const newItem: LinkedListItem = { value, next: null };
+  get head(): LinkedListItem | null {
+    return this._head;
+  }
 
-        if (!this.head) {
-            this.head = newItem;
-        }
+  get tail(): LinkedListItem | null {
+    return this._tail;
+  }
 
-        if (this.tail) {
-            this.tail.next = newItem;
-        }
+  append(value: unknown): void {
+    const newItem: LinkedListItem = { value, next: null };
 
-        this.tail = newItem;
+    if (!this._head) {
+      this._head = newItem;
     }
 
-    prepend(value: unknown): void {
-        const newItem: LinkedListItem = { value, next: this.head };
-
-        this.head = newItem;
-
-        if (!this.tail) {
-            this.tail = newItem;
-        }
+    if (this._tail) {
+      this._tail.next = newItem;
     }
 
-    insertAfter(value: unknown, valueAfter: unknown): void {
-        const item = this.find(valueAfter);
+    this._tail = newItem;
+  }
 
-        if (item) {
-            item.next = { value, next: item.next };
-        }
+  prepend(value: unknown): void {
+    const newItem: LinkedListItem = { value, next: this._head };
+
+    this._head = newItem;
+
+    if (!this._tail) {
+      this._tail = newItem;
+    }
+  }
+
+  insertAfter(value: unknown, valueAfter: unknown): void {
+    const item = this.find(valueAfter);
+
+    if (item) {
+      item.next = { value, next: item.next };
+    }
+  }
+
+  find(value: unknown): LinkedListItem | null {
+    if (!this._head) {
+      return null;
     }
 
-    find(value: unknown): LinkedListItem | null {
-        if (!this.head) {
-            return null;
-        }
+    let currentItem: LinkedListItem | null = this._head;
 
-        let currentItem: LinkedListItem | null  = this.head;
-
-        while (currentItem) {
-            if (currentItem.value === value) {
-                return currentItem;
-            }
-            currentItem = currentItem.next;
-        }
-
-        return null;
+    while (currentItem) {
+      if (currentItem.value === value) {
+        return currentItem;
+      }
+      currentItem = currentItem.next;
     }
 
-    delete(value: unknown): void {
-        if (!this.head) {
-            return;
-        }
+    return null;
+  }
 
-        while (this.head && this.head.value === value) {
-            this.head = this.head.next;
-        }
-
-        let currentItem: LinkedListItem | null = this.head;
-
-        while (currentItem?.next) {
-            if (currentItem?.next.value === value) {
-                currentItem.next = currentItem.next.next;
-            } else {
-                currentItem = currentItem.next;
-            }
-        }
-
-        if (this.tail?.value === value) {
-            this.tail = currentItem;
-        }
+  delete(value: unknown): void {
+    if (!this._head) {
+      return;
     }
 
-    toArray(): LinkedListItem[] {
-        const array: LinkedListItem[] = [];
-        let currentItem = this.head;
-
-        while (currentItem) {
-            array.push(currentItem);
-            currentItem = currentItem.next;
-        }
-
-        return array;
+    while (this._head && this._head.value === value) {
+      this._head = this._head.next;
     }
+
+    let currentItem: LinkedListItem | null = this._head;
+
+    while (currentItem?.next) {
+      if (currentItem?.next.value === value) {
+        currentItem.next = currentItem.next.next;
+      } else {
+        currentItem = currentItem.next;
+      }
+    }
+
+    if (this._tail?.value === value) {
+      this._tail = currentItem;
+    }
+  }
+
+  deleteHead(): LinkedListItem | null {
+    if (!this._head) {
+      return null;
+    }
+
+    const deletedItem = this._head;
+
+    if (deletedItem.next) {
+      this._head = deletedItem.next;
+    } else {
+      this._head = null;
+      this._tail = null;
+    }
+
+    return deletedItem;
+  }
+
+  toArray(): LinkedListItem[] {
+    const array: LinkedListItem[] = [];
+    let currentItem = this._head;
+
+    while (currentItem) {
+      array.push(currentItem);
+      currentItem = currentItem.next;
+    }
+
+    return array;
+  }
 }

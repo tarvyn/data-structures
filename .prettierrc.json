@@ -1,0 +1,6 @@
+{
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "css",
+  "quoteProps": "consistent",
+  "singleQuote": true
+}
