@@ -86,6 +86,30 @@ export class Node {
     }
   }
 
+  get leftDepth(): number {
+    if (!this.left) {
+      return 0;
+    }
+
+    return this.left.depth + 1;
+  }
+
+  get rightDepth(): number {
+    if (!this.right) {
+      return 0;
+    }
+
+    return this.right.depth + 1;
+  }
+
+  get depth(): number {
+    return Math.max(this.leftDepth, this.rightDepth);
+  }
+
+  get balanceFactor(): number {
+    return this.leftDepth - this.rightDepth;
+  }
+
   private findNextBiggerNode(): Node {
     if (!this.left) {
       return this;
@@ -109,7 +133,7 @@ export class Node {
 }
 
 export class BinaryTree {
-  readonly root = new Node(null);
+  root = new Node(null);
 
   add(value: number): void {
     this.root.add(value);
